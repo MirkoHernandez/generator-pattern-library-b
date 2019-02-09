@@ -1,0 +1,2 @@
+# generator-pattern-library-b
+
