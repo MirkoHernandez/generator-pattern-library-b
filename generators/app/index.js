@@ -5,18 +5,13 @@ const yosay = require('yosay');
 
 module.exports = class extends Generator {
   prompting() {
-    // Have Yeoman greet the user.
-    this.log(
-      yosay(`Welcome to the extraordinary ${chalk.red('generator-pattern-library-b')} generator!`)
-    );
-
-    const prompts = [
-      {
-        type: 'confirm',
-        name: 'someAnswer',
-        message: 'Would you like to enable this option?',
-        default: true
-      }
+      const prompts = [
+	     {
+		type: 'input',
+		name: 'projectName', 
+		message: 'Your project name',
+		default: this.appname
+	    }
     ];
 
     return this.prompt(prompts).then(props => {
@@ -25,14 +20,43 @@ module.exports = class extends Generator {
     });
   }
 
-  writing() {
-    this.fs.copy(
-      this.templatePath('dummyfile.txt'),
-      this.destinationPath('dummyfile.txt')
-    );
+    writing() {
+	
+      	// Project files and folders
+	this.fs.copyTpl(
+	    this.templatePath('design/'),
+	    this.destinationPath('./design'),
+	    this.props
+	);
+
+	// Gulp build system
+	this.fs.copyTpl(
+	    this.templatePath('gulpfile.js'),
+	    this.destinationPath('gulpfile.js'),
+	    this.props
+	);
+	this.fs.copy(
+	    this.templatePath('fractal.js'),
+	    this.destinationPath('fractal.js')
+	);
+
+	// Libraries
+	this.fs.copyTpl(
+	    this.templatePath('package.json'),
+	    this.destinationPath('package.json'),
+	    this.props
+	);
+	this.fs.copy(
+	    this.templatePath('gitignore'), 
+	    this.destinationPath('.gitignore')
+	);
   }
 
-  install() {
-    this.installDependencies();
-  }
+    install() {
+	this.installDependencies({
+	    yarn: true,
+	    npm: false,
+	    bower: false,
+	});
+    }
 };
