@@ -21,7 +21,7 @@ module.exports = class extends Generator {
 	 {
         type: 'list',
         name: 'cssType',
-          message: 'Which kind of template should be used',
+          message: 'Which kind of css preprocesor should be used',
 	  choices: [
 	      '.scss',
 	      '.less'
