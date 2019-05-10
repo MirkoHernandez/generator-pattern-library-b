@@ -1,0 +1,53 @@
+Description:
+    Creates a basic structure and configuration for a fractal based  pattern library.
+    On first use it will prompt for the template language and the css preprocessor.
+Usage:
+    yo pattern-library-b
+    
+    This will create the following directory and file structure:
+├── design      
+│   ├── components
+│   │   ├── atoms       
+│   │   ├── base
+│   │   ├── atoms                                                                                                   [0/69]
+│   │   ├── base       
+│   │   ├── molecules  
+│   │   ├── organisms  
+│   │   ├── pages      
+│   │   ├── _preview.hbs
+│   │   └── templates  
+│   ├── docs        
+│   │   └── index.md
+│   ├── public     
+│   │   ├── css        
+│   │   ├── img                                                                                                           
+│   │   └── js         
+│   └── scss         
+│       ├── main.scss  
+│       ├── mixins     
+│       └── _variables.scss                                                                   
+├── fractal.js                                                                                    
+├── .gitignore                                                                                     
+├── gulpfile.js 
+└── package.json  
+
+
+Usage for bem sub-generator:
+    yo pattern-library-b:bem [atomicType] [name] [block] [<element>] [<modifier>]
+
+    Arguments:
+    
+    atomicType  is the type of the component (atom,molecule,etc...)  and the folder in which the files will be created.   
+    name        is the name of the component.
+    block   	is the css class of the block.
+    element     is the css class of the element.
+    modifier    is the css class of the modifier.
+
+
+    This subgenerator will create a folder [name] in the folder specified by [atomicType].
+    The following 3 files will be created:
+
+├── [name].(twig|hbs|njk|mustache)
+├── [name].(less|scss)
+└── [name].config.js 
+    
