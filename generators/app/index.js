@@ -38,9 +38,10 @@ module.exports = class extends Generator {
 	mkdirp.sync('./design/components/pages');
 
 	// docs
-	this.fs.copy(
+	this.fs.copyTpl(
 	    this.templatePath('./design/docs/index.md'),
 	    this.destinationPath('./design/docs/index.md'),
+	    this.props
 	);
 
 	// public

@@ -4,7 +4,8 @@
 var gulp = require('gulp');
 var sass = require('gulp-sass');
 var sassGlob = require('gulp-sass-glob');
-var taskListing = require('gulp-task-listing');
+var usage = require('gulp-help-doc');
+
 
 // Gulp config
 var watchOptions = {
@@ -25,18 +26,6 @@ var paths = {
     }
 };
 
-// Tasks
-function styles() {
-    return gulp.src(paths.styles.src)
-	.pipe(sassGlob())
-	.pipe(sass())
-	.pipe(gulp.dest(paths.styles.dest));
-}
-
-function watch () {
-    gulp.watch(paths.styles.watch,watchOptions, styles);
-}
-
 
 // Fractal config
 var  fractal = require('@frctl/fractal').create();
@@ -49,6 +38,39 @@ fractal.components.set('path', paths.fractal.components); // location of the com
 
 var  logger = fractal.cli.console; // keep a reference to the fractal CLI console utility
 
+
+// Tasks
+
+/**
+ * Compiles scss files.
+ * 
+ * @task {styles}
+ * @order {4}
+ */
+function styles() {
+    return gulp.src(paths.styles.src)
+	.pipe(sassGlob())
+	.pipe(sass())
+	.pipe(gulp.dest(paths.styles.dest));
+}
+
+/**
+ * Starts watching for changes in scss files. 
+ * 
+ * @task {watchStyles}
+ * @order {3}
+ */
+function watchStyles () {
+    gulp.watch(paths.styles.watch,watchOptions, styles);
+}
+
+
+/**
+ * Starts a fractal server 
+ * 
+ * @task {fractal}
+ * @order {2}
+ */
 gulp.task('fractalServer', function(){
     const server = fractal.web.server({
         sync: true
@@ -60,11 +82,21 @@ gulp.task('fractalServer', function(){
 });
 
 
-gulp.task('default',taskListing);
+/**
+ * Lists all the taks, same as the default task.
+ * 
+ * @task {help}
+ * @order {1}
+ */
+function help () {
+    return usage(gulp);
+}
+exports.help = help;
+gulp.task('default', help);
 
 // main tasks
-exports.fractal = gulp.parallel(gulp.series('fractalServer'),watch)
-exports.watch = watch;
+exports.fractal = gulp.parallel(gulp.series('fractalServer'),watchStyles)
+exports.watchStyles = watchStyles;
 
 // sub-tasks
 exports.styles = styles;
